@@ -9,6 +9,8 @@ import { CamerasPage } from "./pages/CamerasPage";
 import { HistoryPage } from "./pages/HistoryPage";
 import { EventsPage } from "./pages/EventsPage";
 import { HealthPage } from "./pages/HealthPage";
+import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
+import { LoginPage } from "./pages/LoginPage";
 import "./styles/global.css";
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } },
@@ -18,6 +20,8 @@ createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
+          <Route path="login" element={<LoginPage />} />
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />
           <Route element={<App />}>
             <Route index element={<OverviewPage />} />
             <Route path="live" element={<LivePage />} />
