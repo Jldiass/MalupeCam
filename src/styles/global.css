@@ -848,6 +848,7 @@ code {
 :root[data-theme="light"] .modal,
 :root[data-theme="light"] .detail-grid div,
 :root[data-theme="light"] .video-panel,
+:root[data-theme="light"] .table-wrap,
 :root[data-theme="light"] table {
   background: #ffffff;
   border-color: #cad7de;
