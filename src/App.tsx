@@ -5,11 +5,14 @@ import {
   History,
   LayoutDashboard,
   MonitorPlay,
+  Moon,
   Radio,
   Settings,
+  Sun,
 } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { systemApi } from "./api/system";
 import styles from "./App.module.css";
 import { ServiceStatus } from "./components/Status";
@@ -22,12 +25,19 @@ const nav = [
   ["/health", "Saúde do sistema", Activity],
 ] as const;
 export default function App() {
+  const [theme, setTheme] = useState<"dark" | "light">(
+    () => (localStorage.getItem("malupe-theme") as "dark" | "light" | null) ?? "dark",
+  );
   const health = useQuery({
     queryKey: ["health"],
     queryFn: systemApi.health,
     refetchInterval: 15_000,
     retry: 1,
   });
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem("malupe-theme", theme);
+  }, [theme]);
   return (
     <div className={styles.shell}>
       <aside className="sidebar">
@@ -53,6 +63,15 @@ export default function App() {
           <Settings size={15} />
           <span>API {health.data?.version ?? "--"}</span>
           <ServiceStatus up={health.data?.ok ?? false} />
+          <button
+            className="theme-toggle"
+            onClick={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
+            title={theme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
+            aria-label={theme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
+          >
+            {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
+            <span>{theme === "dark" ? "Claro" : "Escuro"}</span>
+          </button>
         </div>
       </aside>
       <main className={styles.main}>
