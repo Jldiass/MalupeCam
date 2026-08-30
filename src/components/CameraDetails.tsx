@@ -4,11 +4,11 @@ import type { Camera } from "../types/api";
 import { CameraStatusBadge } from "./Status";
 
 export function CameraDetails({ camera }: { camera: Camera }) {
-  const [copied, setCopied] = useState(false);
-  const copy = async () => {
-    await navigator.clipboard.writeText(camera.rtmp_url);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
+  const [copied, setCopied] = useState<"url" | "server" | "key" | null>(null);
+  const copy = async (kind: "url" | "server" | "key", value: string) => {
+    await navigator.clipboard.writeText(value);
+    setCopied(kind);
+    window.setTimeout(() => setCopied(null), 1800);
   };
   return (
     <div className="details-panel">
@@ -42,15 +42,46 @@ export function CameraDetails({ camera }: { camera: Camera }) {
         </div>
       </dl>
       <p className="detail-note">
-        <KeyRound size={15} /> URL RTMP fornecida pelo servidor; configure o encoder em H.264 + AAC.
+        <KeyRound size={15} /> No Mibo, apague o conteúdo antigo e cole somente a URL completa.
       </p>
+      <strong>URL para Mibo</strong>
       <div className="credential-value">
         <code>{camera.rtmp_url}</code>
-        <button className="icon-button" onClick={copy} aria-label="Copiar URL RTMP">
+        <button
+          className="icon-button"
+          onClick={() => copy("url", camera.rtmp_url)}
+          aria-label="Copiar URL RTMP completa"
+        >
           <Copy size={17} />
         </button>
       </div>
-      {copied && <span className="copy-state">URL copiada</span>}
+      <strong>Servidor RTMP</strong>
+      <div className="credential-value">
+        <code>{camera.rtmp_server_url}</code>
+        <button
+          className="icon-button"
+          onClick={() => copy("server", camera.rtmp_server_url)}
+          aria-label="Copiar servidor RTMP"
+        >
+          <Copy size={17} />
+        </button>
+      </div>
+      <strong>Chave do stream</strong>
+      <div className="credential-value">
+        <code>{camera.stream_key}</code>
+        <button
+          className="icon-button"
+          onClick={() => copy("key", camera.stream_key)}
+          aria-label="Copiar chave do stream"
+        >
+          <Copy size={17} />
+        </button>
+      </div>
+      {copied && (
+        <span className="copy-state">
+          {copied === "url" ? "URL completa" : copied === "server" ? "Servidor" : "Chave"} copiado(a)
+        </span>
+      )}
     </div>
   );
 }

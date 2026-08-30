@@ -11,6 +11,7 @@ export interface Camera {
   enabled: boolean;
   created_at: string;
   status: CameraStatus;
+  rtmp_server_url: string;
   rtmp_url: string;
   hls_url: string;
   effective_retention_hours: number;
@@ -28,6 +29,7 @@ export interface CameraUpdate extends Partial<CameraInput> {
 export interface StreamCredentials {
   camera_id: number;
   stream_key: string;
+  rtmp_server_url: string;
   rtmp_url: string;
   hls_url: string;
 }

@@ -517,6 +517,34 @@ td {
   font-size: 13px;
   line-height: 1.5;
 }
+.credential-group {
+  display: grid;
+  gap: 7px;
+  margin-top: 16px;
+}
+.credential-group strong,
+.details-panel > strong {
+  color: #d7e6ee;
+  font-size: 12px;
+  margin-top: 8px;
+}
+.credential-group label {
+  color: #91a5b2;
+  font-size: 11px;
+  margin-top: 5px;
+}
+.credential-advanced {
+  margin-top: 16px;
+  color: #a8bbc6;
+  font-size: 12px;
+}
+.credential-advanced summary {
+  cursor: pointer;
+}
+.credentials .credential-warning {
+  color: #f2bb7b;
+  margin-top: 16px;
+}
 .credential-value {
   display: flex;
   background: #0c1217;
