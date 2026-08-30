@@ -34,6 +34,7 @@ export function CamerasPage() {
         setCredentials({
           camera_id: camera.id,
           stream_key: camera.stream_key,
+          stream_path: camera.stream_path,
           rtmp_server_url: camera.rtmp_server_url,
           rtmp_url: camera.rtmp_url,
           hls_url: camera.hls_url,

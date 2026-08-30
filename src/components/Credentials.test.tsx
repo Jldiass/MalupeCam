@@ -13,6 +13,7 @@ describe("Credentials", () => {
         credentials={{
           camera_id: 1,
           stream_key: streamKey,
+          stream_path: `live/${streamKey}`,
           rtmp_server_url: server,
           rtmp_url: fullUrl,
           hls_url: "http://localhost/hls/cam-chave-teste/index.m3u8",

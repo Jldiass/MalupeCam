@@ -8,6 +8,7 @@ export interface Camera {
   pre_alarm_seconds: number;
   post_alarm_seconds: number;
   stream_key: string;
+  stream_path: string;
   enabled: boolean;
   created_at: string;
   status: CameraStatus;
@@ -29,6 +30,7 @@ export interface CameraUpdate extends Partial<CameraInput> {
 export interface StreamCredentials {
   camera_id: number;
   stream_key: string;
+  stream_path: string;
   rtmp_server_url: string;
   rtmp_url: string;
   hls_url: string;
