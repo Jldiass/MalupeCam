@@ -26,7 +26,7 @@ Endpoints novos consumidos por este front-end (ver `README.md` para a lista comp
 | Conectividade | `GET /camera-status/summary`, `GET /camera-status/history`, `GET /camera-status/report` |
 | Sessão | `POST /auth/register`, `POST /auth/forgot-password`, `POST /auth/reset-password` |
 
-**Pendências para a equipe de backend:**
+**Pendências resolvidas:**
 
-- Confirmar que `POST /auth/register` é rejeitado (409/403) assim que já existir ao menos um usuário ativo — o front-end não impõe essa regra, apenas assume que o backend a garante.
-- Definir onde e por quanto tempo as gravações (segmentos do MediaMTX) ficam armazenadas — ainda não documentado/implementado (ver discussão em andamento sobre Cloudflare R2 com retenção de 1 hora).
+- ✅ `POST /auth/register` já rejeita com `403` assim que existe qualquer usuário (`sentinela-cftv-backend/backend/app/routers/auth.py:161`) — confirmado direto no código do backend.
+- ✅ Gravações: retenção de 1 hora já era garantida pelo MediaMTX (`recordDeleteAfter: 1h`). Ficou decidido não migrar para Cloudflare R2 (exigiria cartão de crédito cadastrado); o armazenamento continua no volume local do Railway, suficiente para o número atual de câmeras. O código de suporte a R2 foi implementado e deixado desativado (opt-in via variáveis de ambiente) no repositório do backend, caso a equipe reconsidere no futuro com mais câmeras.
