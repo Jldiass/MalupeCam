@@ -65,7 +65,7 @@ export default function App() {
           <img src={logo} alt="Grupo Malupe" className="brand-logo" />
         </div>
         <div className="environment">
-          <small>Central ativa</small>
+          <small>Olá,</small>
           <strong>{user?.full_name}</strong>
           <span>{user?.roles.join(", ") || "Sem perfil"}</span>
         </div>
