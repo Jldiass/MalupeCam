@@ -14,11 +14,13 @@ export function HlsPlayer({
 }) {
   const video = useRef<HTMLVideoElement>(null);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [muted, setMuted] = useState(true);
   useEffect(() => {
     const element = video.current;
     if (!element || camera.status === "offline") return;
     setError(false);
+    setLoading(true);
     if (element.canPlayType("application/vnd.apple.mpegurl")) {
       element.src = camera.hls_url;
       return () => {
@@ -35,7 +37,15 @@ export function HlsPlayer({
           setError(true);
           return;
         }
-        const hls = new Hls({ enableWorker: true, lowLatencyMode: true });
+        const hls = new Hls({
+          enableWorker: true,
+          lowLatencyMode: true,
+          // Without this, hls.js only avoids falling further behind the
+          // live edge — it never recovers seconds already lost to network
+          // jitter or a stalled segment. A slight speed-up (imperceptible
+          // to the ear/eye) lets it catch back up instead of drifting.
+          maxLiveSyncPlaybackRate: 1.5,
+        });
         destroy = () => hls.destroy();
         hls.loadSource(camera.hls_url);
         hls.attachMedia(element);
@@ -64,14 +74,19 @@ export function HlsPlayer({
           <span>{error ? "Sinal indisponível" : "Câmera offline"}</span>
         </div>
       ) : (
-        <video
-          ref={video}
-          muted={muted}
-          autoPlay
-          playsInline
-          controls={false}
-          aria-label={`Vídeo ao vivo: ${camera.name}`}
-        />
+        <>
+          <video
+            ref={video}
+            className={loading ? "video-loading" : ""}
+            muted={muted}
+            autoPlay
+            playsInline
+            controls={false}
+            aria-label={`Vídeo ao vivo: ${camera.name}`}
+            onLoadedData={() => setLoading(false)}
+          />
+          {loading && <div className="video-skeleton" aria-hidden="true" />}
+        </>
       )}
       {camera.status !== "offline" && !error && camera.audio_enabled && (
         <button

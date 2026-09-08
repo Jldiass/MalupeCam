@@ -1,5 +1,6 @@
-import { Moon, Radio, ShieldCheck, Sun } from "lucide-react";
+import { Moon, ShieldCheck, Sun } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
+import logo from "../assets/malupe-logo.png";
 
 export function AuthShell({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<"dark" | "light">(
@@ -23,10 +24,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
       </button>
       <section className="auth-intro">
         <div className="brand">
-          <Radio size={24} />
-          <span>
-            MALUPE <b>CAM</b>
-          </span>
+          <img src={logo} alt="Grupo Malupe" className="brand-logo brand-logo-large" />
         </div>
         <div className="auth-intro-copy">
           <p className="eyebrow">CENTRAL DE SEGURANÇA</p>

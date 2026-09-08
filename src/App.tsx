@@ -6,16 +6,16 @@ import {
   LayoutDashboard,
   LogOut,
   Moon,
-  Radio,
   Settings,
   ShieldCheck,
   Sun,
   Users,
   Video,
 } from "lucide-react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import logo from "./assets/malupe-logo.png";
 import { systemApi } from "./api/system";
 import { useAuth } from "./auth/useAuth";
 import { ServiceStatus } from "./components/Status";
@@ -38,6 +38,7 @@ export default function App() {
   );
   const { user, can, logout } = useAuth();
   const queryClient = useQueryClient();
+  const location = useLocation();
   const health = useQuery({
     queryKey: ["health"],
     queryFn: systemApi.health,
@@ -61,10 +62,7 @@ export default function App() {
       </a>
       <aside className="sidebar">
         <div className="brand" translate="no">
-          <Radio size={22} aria-hidden="true" />
-          <span>
-            MALUPE <b>CAM</b>
-          </span>
+          <img src={logo} alt="Grupo Malupe" className="brand-logo" />
         </div>
         <div className="environment">
           <small>Central ativa</small>
@@ -102,7 +100,9 @@ export default function App() {
         </div>
       </aside>
       <main className={styles.main} id="main-content" tabIndex={-1}>
-        <Outlet />
+        <div key={location.pathname} className="route-transition">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

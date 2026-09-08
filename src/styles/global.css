@@ -67,6 +67,14 @@ a {
   color: #d9e7f0;
   font-weight: 500;
 }
+.brand-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+.brand-logo-large {
+  height: 68px;
+}
 .environment {
   background: #17232e;
   border-left: 2px solid #3b91c5;
@@ -1573,4 +1581,92 @@ code {
   .mosaic-wall {
     grid-template-columns: 1fr !important;
   }
+}
+
+/* Motion: kept subtle and functional (loading/transition feedback, not
+   decoration) per the operational-tool tone the rest of the UI follows.
+   Respects prefers-reduced-motion — nothing here is load-bearing for
+   understanding the interface. */
+@media (prefers-reduced-motion: no-preference) {
+  .route-transition {
+    animation: route-fade-in 0.22s ease both;
+  }
+  nav a,
+  .button,
+  .icon-button,
+  .theme-toggle,
+  .text-button {
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .video-panel video {
+    transition: opacity 0.35s ease;
+  }
+  .video-skeleton {
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  }
+  .modal {
+    animation: modal-in 0.18s ease both;
+  }
+  .modal::backdrop {
+    animation: modal-backdrop-in 0.18s ease both;
+  }
+}
+
+@keyframes route-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes modal-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.video-panel video.video-loading {
+  opacity: 0;
+}
+
+.video-skeleton {
+  position: absolute;
+  inset: 54px 0 0 0;
+  background: linear-gradient(100deg, #0c131a 30%, #182430 50%, #0c131a 70%);
+  background-size: 220% 100%;
+  pointer-events: none;
+}
+
+:root[data-theme="light"] .video-skeleton {
+  background-image: linear-gradient(100deg, #eef3f6 30%, #dbe6ec 50%, #eef3f6 70%);
 }
