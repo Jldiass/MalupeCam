@@ -70,8 +70,7 @@ export function LoginPage() {
               />
             </span>
           </label>
-          <div className="auth-options">
-            <Link to="/register">Primeiro acesso</Link>
+          <div className="auth-options auth-options-end">
             <Link to="/forgot-password">Esqueci minha senha</Link>
           </div>
           <button className="button primary auth-submit" disabled={busy}>

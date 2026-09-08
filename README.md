@@ -11,7 +11,7 @@ Painel operacional para monitoramento CFTV. A aplicação consome a API Malupe C
 - painel de saúde para PostgreSQL e MediaMTX;
 - tema escuro operacional como padrão e alternador persistente para modo claro.
 - login real com access token somente em memória e refresh token em cookie `HttpOnly`;
-- primeiro acesso, recuperação e redefinição de senha;
+- recuperação e redefinição de senha;
 - rotas e ações condicionadas pelas permissões devolvidas pela API;
 - mosaicos persistentes de 1 a 36 posições com associação de usuários, perfis e câmeras;
 - gestão de usuários, perfis e permissões;
@@ -45,8 +45,8 @@ O frontend deriva o endpoint de saúde da mesma origem (`/health`). Não coloque
 
 ## Fluxo de autenticação
 
-1. Em uma instalação vazia, abra `/register` para criar o único administrador inicial.
-2. Depois disso, novas contas são criadas em **Usuários** por quem possui `users.manage`.
+1. Não há cadastro público. Toda conta — inclusive administradores — é criada em **Usuários** por quem já possui `users.manage`, atribuindo o perfil "Administrador" na criação.
+2. O backend garante que sempre exista pelo menos um administrador: se o usuário mais antigo do banco não tiver o perfil "Administrador", ele é promovido automaticamente na inicialização (`ensure_rbac_catalog`). O endpoint `POST /auth/register` continua existindo no backend só como rede de segurança para reconstruir o primeiro acesso caso a tabela de usuários fique vazia; o front-end não expõe mais essa tela.
 3. O access token fica somente em memória. O refresh token nunca é lido pelo JavaScript.
 4. Ao receber `401`, o cliente compartilha uma única tentativa de `/auth/refresh` e repete a chamada.
 5. `403` mantém a sessão e mostra que o perfil não permite a operação.

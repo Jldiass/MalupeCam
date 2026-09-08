@@ -1,14 +1,6 @@
 import { request, setAccessToken } from "./client";
 import type { AuthTokens, AuthUser } from "../types/api";
 export const authApi = {
-  register: async (email: string, fullName: string, password: string) => {
-    const tokens = await request<AuthTokens>("/auth/register", {
-      method: "POST",
-      body: JSON.stringify({ email, full_name: fullName, password }),
-    });
-    setAccessToken(tokens.access_token);
-    return tokens;
-  },
   login: async (email: string, password: string) => {
     const tokens = await request<AuthTokens>("/auth/login", {
       method: "POST",

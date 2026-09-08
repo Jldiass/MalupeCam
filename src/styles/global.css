@@ -1142,6 +1142,10 @@ code {
   justify-content: space-between;
 }
 
+.auth-options-end {
+  justify-content: flex-end;
+}
+
 .auth-options .toggle {
   color: #91a5b2;
   font-size: 11px;

@@ -39,19 +39,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(session.user);
     return session.user;
   }, []);
-  const register = useCallback(async (email: string, fullName: string, password: string) => {
-    const session = await authApi.register(email, fullName, password);
-    setUser(session.user);
-    return session.user;
-  }, []);
   const logout = useCallback(async () => {
     await authApi.logout();
     setUser(null);
   }, []);
   const can = useCallback((permission: string) => Boolean(user?.permissions.includes(permission)), [user]);
   const value = useMemo(
-    () => ({ user, ready, login, register, logout, can }),
-    [user, ready, login, register, logout, can],
+    () => ({ user, ready, login, logout, can }),
+    [user, ready, login, logout, can],
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

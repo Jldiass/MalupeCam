@@ -21,7 +21,6 @@ const MosaicsPage = page(() => import("./pages/MosaicsPage"), "MosaicsPage");
 const OverviewPage = page(() => import("./pages/OverviewPage"), "OverviewPage");
 const RolesPage = page(() => import("./pages/RolesPage"), "RolesPage");
 const ResetPasswordPage = page(() => import("./pages/ResetPasswordPage"), "ResetPasswordPage");
-const RegisterPage = page(() => import("./pages/RegisterPage"), "RegisterPage");
 const UsersPage = page(() => import("./pages/UsersPage"), "UsersPage");
 
 const queryClient = new QueryClient({
@@ -36,7 +35,7 @@ createRoot(document.getElementById("root")!).render(
             <Routes>
               <Route path="login" element={<LoginPage />} />
               <Route path="forgot-password" element={<ForgotPasswordPage />} />
-              <Route path="register" element={<RegisterPage />} />
+              <Route path="register" element={<Navigate to="/login" replace />} />
               <Route path="reset-password" element={<ResetPasswordPage />} />
               <Route element={<ProtectedRoute />}>
                 <Route element={<App />}>
