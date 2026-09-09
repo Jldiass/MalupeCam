@@ -80,21 +80,17 @@ export default function App() {
             ))}
         </nav>
         <div className="sidebar-footer">
-          <Settings size={15} aria-hidden="true" />
-          <span>API {health.data?.version ?? "--"}</span>
-          {can("system.health.read") && <ServiceStatus up={health.data?.ok ?? false} />}
+          <div className="status-line">
+            <Settings size={15} aria-hidden="true" />
+            <span>API {health.data?.version ?? "--"}</span>
+            {can("system.health.read") && <ServiceStatus up={health.data?.ok ?? false} />}
+          </div>
           <button className="theme-toggle" onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}>
-            <span>
-              {theme === "dark" ? (
-                <Sun size={15} aria-hidden="true" />
-              ) : (
-                <Moon size={15} aria-hidden="true" />
-              )}
-            </span>
+            {theme === "dark" ? <Sun size={17} aria-hidden="true" /> : <Moon size={17} aria-hidden="true" />}
             {theme === "dark" ? "Modo claro" : "Modo escuro"}
           </button>
           <button className="theme-toggle" onClick={() => void leave()}>
-            <LogOut size={15} aria-hidden="true" />
+            <LogOut size={17} aria-hidden="true" />
             Sair
           </button>
         </div>
