@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit3, Plus, Search, Trash2 } from "lucide-react";
 import { useMemo, useState, type FormEvent } from "react";
 import { accessApi } from "../api/access";
-import { useAuth } from "../auth/useAuth";
 import { Modal } from "../components/Modal";
 import { apiMessage } from "../hooks/useApiError";
 import type { UserInput, UserRecord } from "../types/api";
@@ -10,15 +9,13 @@ import type { UserInput, UserRecord } from "../types/api";
 const blank: UserInput = { full_name: "", email: "", password: "", is_active: true, role_ids: [] };
 
 export function UsersPage() {
-  const { can } = useAuth();
-  const canAssignRoles = can("permissions.manage");
   const client = useQueryClient();
   const [search, setSearch] = useState("");
   const [editing, setEditing] = useState<UserRecord | "new" | null>(null);
   const [form, setForm] = useState<UserInput>(blank);
   const [notice, setNotice] = useState<string | null>(null);
   const users = useQuery({ queryKey: ["users"], queryFn: accessApi.users });
-  const roles = useQuery({ queryKey: ["roles"], queryFn: accessApi.roles, enabled: canAssignRoles });
+  const roles = useQuery({ queryKey: ["roles"], queryFn: accessApi.roles });
   const save = useMutation({
     mutationFn: (input: UserInput) =>
       editing === "new"
@@ -61,7 +58,6 @@ export function UsersPage() {
     event.preventDefault();
     const input: Partial<UserInput> = { ...form };
     if (!input.password) delete input.password;
-    if (!canAssignRoles && editing !== "new") delete input.role_ids;
     save.mutate(input as UserInput);
   };
   const destroy = (user: UserRecord) => {
@@ -180,30 +176,25 @@ export function UsersPage() {
                 minLength={12}
               />
             </label>
-            <fieldset className="field field-wide check-list">
-              <legend>Perfis</legend>
-              {!canAssignRoles && (
-                <p>Seu acesso permite editar usuários, mas não consultar ou alterar perfis.</p>
-              )}
-              {canAssignRoles &&
-                roles.data?.map((role) => (
-                  <label key={role.id}>
-                    <input
-                      type="checkbox"
-                      checked={form.role_ids.includes(role.id)}
-                      onChange={(event) =>
-                        setForm({
-                          ...form,
-                          role_ids: event.target.checked
-                            ? [...form.role_ids, role.id]
-                            : form.role_ids.filter((id) => id !== role.id),
-                        })
-                      }
-                    />
+            <label className="field field-wide">
+              Perfil
+              <select
+                value={form.role_ids[0] ?? ""}
+                onChange={(event) =>
+                  setForm({ ...form, role_ids: event.target.value ? [Number(event.target.value)] : [] })
+                }
+                required
+              >
+                <option value="" disabled>
+                  Selecione um perfil…
+                </option>
+                {roles.data?.map((role) => (
+                  <option key={role.id} value={role.id}>
                     {role.name}
-                  </label>
+                  </option>
                 ))}
-            </fieldset>
+              </select>
+            </label>
             <label className="toggle field-wide">
               <input
                 type="checkbox"

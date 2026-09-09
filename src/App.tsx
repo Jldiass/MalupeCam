@@ -7,7 +7,6 @@ import {
   LogOut,
   Moon,
   Settings,
-  ShieldCheck,
   Sun,
   Users,
   Video,
@@ -28,7 +27,6 @@ const nav = [
   ["/history", "Gravações", History, "cameras.read"],
   ["/events", "Eventos", BellRing, "events.read"],
   ["/users", "Usuários", Users, "users.manage"],
-  ["/roles", "Perfis e permissões", ShieldCheck, "permissions.manage"],
   ["/health", "Saúde do sistema", Activity, "system.health.read"],
 ] as const;
 

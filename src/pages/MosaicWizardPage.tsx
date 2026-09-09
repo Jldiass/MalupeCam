@@ -35,11 +35,7 @@ export function MosaicWizardPage() {
     enabled: Boolean(id),
   });
   const users = useQuery({ queryKey: ["users"], queryFn: accessApi.users, enabled: can("users.manage") });
-  const roles = useQuery({
-    queryKey: ["roles"],
-    queryFn: accessApi.roles,
-    enabled: can("permissions.manage"),
-  });
+  const roles = useQuery({ queryKey: ["roles"], queryFn: accessApi.roles });
   const cameras = useQuery({ queryKey: ["cameras"], queryFn: () => camerasApi.list(false) });
 
   useEffect(() => {
@@ -214,9 +210,6 @@ export function MosaicWizardPage() {
                 ))}
               </div>
               <h3>Perfis completos</h3>
-              {!can("permissions.manage") && (
-                <div className="permission-note">Sem permissão para pesquisar perfis.</div>
-              )}
               <div className="check-list">
                 {roles.data?.map((role) => (
                   <label key={role.id}>

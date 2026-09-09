@@ -24,7 +24,6 @@ export function homeFor(user: AuthUser) {
     ["cameras.read", "/cameras"],
     ["events.read", "/events"],
     ["users.manage", "/users"],
-    ["permissions.manage", "/roles"],
     ["system.health.read", "/health"],
   ];
   return destinations.find(([permission]) => user.permissions.includes(permission))?.[1] ?? "/no-access";

@@ -19,7 +19,6 @@ const MosaicViewPage = page(() => import("./pages/MosaicViewPage"), "MosaicViewP
 const MosaicWizardPage = page(() => import("./pages/MosaicWizardPage"), "MosaicWizardPage");
 const MosaicsPage = page(() => import("./pages/MosaicsPage"), "MosaicsPage");
 const OverviewPage = page(() => import("./pages/OverviewPage"), "OverviewPage");
-const RolesPage = page(() => import("./pages/RolesPage"), "RolesPage");
 const ResetPasswordPage = page(() => import("./pages/ResetPasswordPage"), "ResetPasswordPage");
 const UsersPage = page(() => import("./pages/UsersPage"), "UsersPage");
 
@@ -74,9 +73,6 @@ createRoot(document.getElementById("root")!).render(
                   </Route>
                   <Route element={<PermissionRoute permission="users.manage" />}>
                     <Route path="users" element={<UsersPage />} />
-                  </Route>
-                  <Route element={<PermissionRoute permission="permissions.manage" />}>
-                    <Route path="roles" element={<RolesPage />} />
                   </Route>
                 </Route>
               </Route>
