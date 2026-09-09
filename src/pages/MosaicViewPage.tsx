@@ -3,8 +3,7 @@ import { ArrowLeft, Edit3, Maximize2 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { mosaicsApi } from "../api/mosaics";
 import { useAuth } from "../auth/useAuth";
-import { HlsPlayer } from "../components/HlsPlayer";
-import { mosaicCamera } from "../utils/mosaic";
+import { MosaicGrid } from "../components/MosaicGrid";
 import { apiMessage } from "../hooks/useApiError";
 export function MosaicViewPage() {
   const { id } = useParams();
@@ -55,23 +54,7 @@ export function MosaicViewPage() {
           )}
         </div>
       </header>
-      <section
-        className="mosaic-wall"
-        style={{ gridTemplateColumns: `repeat(${data.columns}, minmax(0, 1fr))` }}
-        aria-label={`Mosaico ${data.name}`}
-      >
-        {Array.from({ length: data.capacity }, (_, index) => {
-          const camera = mosaicCamera(data, index);
-          return camera ? (
-            <HlsPlayer key={camera.id} camera={camera} compact position={index + 1} />
-          ) : (
-            <div className="empty mosaic-slot" key={index}>
-              <span>Posição {index + 1}</span>
-              <small>Sem câmera</small>
-            </div>
-          );
-        })}
-      </section>
+      <MosaicGrid mosaic={data} />
     </div>
   );
 }

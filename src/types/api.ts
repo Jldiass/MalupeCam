@@ -158,3 +158,28 @@ export interface CameraStatusPeriod {
 export interface ApiErrorPayload {
   detail?: string | Array<{ loc: Array<string | number>; msg: string; type: string }>;
 }
+export interface RondaMosaicInput {
+  mosaic_id: number;
+  position: number;
+}
+export interface RondaMosaicRef {
+  mosaic_id: number;
+  position: number;
+  name: string;
+  capacity: number;
+}
+export interface Ronda {
+  id: number;
+  name: string;
+  interval_seconds: number;
+  active: boolean;
+  mosaics: RondaMosaicRef[];
+  created_at: string;
+  updated_at: string;
+}
+export interface RondaInput {
+  name: string;
+  interval_seconds: number;
+  active: boolean;
+  mosaics: RondaMosaicInput[];
+}

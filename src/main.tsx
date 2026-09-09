@@ -20,6 +20,9 @@ const MosaicWizardPage = page(() => import("./pages/MosaicWizardPage"), "MosaicW
 const MosaicsPage = page(() => import("./pages/MosaicsPage"), "MosaicsPage");
 const OverviewPage = page(() => import("./pages/OverviewPage"), "OverviewPage");
 const ResetPasswordPage = page(() => import("./pages/ResetPasswordPage"), "ResetPasswordPage");
+const RondaFormPage = page(() => import("./pages/RondaFormPage"), "RondaFormPage");
+const RondaPlayerPage = page(() => import("./pages/RondaPlayerPage"), "RondaPlayerPage");
+const RondasPage = page(() => import("./pages/RondasPage"), "RondasPage");
 const UsersPage = page(() => import("./pages/UsersPage"), "UsersPage");
 
 const queryClient = new QueryClient({
@@ -59,6 +62,14 @@ createRoot(document.getElementById("root")!).render(
                   <Route element={<PermissionRoute permission="mosaics.manage" />}>
                     <Route path="mosaics/new" element={<MosaicWizardPage />} />
                     <Route path="mosaics/:id/edit" element={<MosaicWizardPage />} />
+                  </Route>
+                  <Route element={<PermissionRoute permission="mosaics.read" />}>
+                    <Route path="rondas" element={<RondasPage />} />
+                    <Route path="rondas/:id" element={<RondaPlayerPage />} />
+                  </Route>
+                  <Route element={<PermissionRoute permission="mosaics.manage" />}>
+                    <Route path="rondas/new" element={<RondaFormPage />} />
+                    <Route path="rondas/:id/edit" element={<RondaFormPage />} />
                   </Route>
                   <Route element={<PermissionRoute permission="cameras.read" />}>
                     <Route path="cameras" element={<CamerasPage />} />

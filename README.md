@@ -13,9 +13,10 @@ Painel operacional para monitoramento CFTV. A aplicação consome a API Malupe C
 - login real com access token somente em memória e refresh token em cookie `HttpOnly`;
 - recuperação e redefinição de senha;
 - rotas e ações condicionadas pelas permissões devolvidas pela API;
-- mosaicos persistentes de 1 a 36 posições com associação de usuários, perfis e câmeras;
-- gestão de usuários, perfis e permissões;
-- resumo e histórico de conectividade online, instável e offline.
+- mosaicos persistentes de 1 a 36 posições com associação de usuários, perfis e câmeras, tela cheia por câmera e captura de imagem;
+- rondas: sequências de mosaicos salvas que alternam automaticamente em loop, com pausa;
+- gestão de usuários com três perfis fixos (Administrador, Operador, Cliente);
+- resumo e relatório de conectividade online, instável e offline.
 
 ## Pré-requisitos
 
@@ -52,9 +53,10 @@ O frontend deriva o endpoint de saúde da mesma origem (`/health`). Não coloque
 5. `403` mantém a sessão e mostra que o perfil não permite a operação.
 
 Principais permissões usadas na navegação: `overview.read`, `mosaics.read`,
-`mosaics.manage`, `cameras.read`, `cameras.manage`, `events.read`,
-`events.manage`, `reports.read`, `users.manage`, `permissions.manage` e
-`system.health.read`.
+`mosaics.manage` (também controla Rondas), `cameras.read`, `cameras.manage`,
+`events.read`, `events.manage`, `reports.read`, `users.manage` e
+`system.health.read`. Perfis são fixos (Administrador, Operador, Cliente) —
+não há mais tela de criação de perfis/permissões personalizadas.
 
 ## Contratos consumidos
 
@@ -64,7 +66,8 @@ Principais permissões usadas na navegação: `overview.read`, `mosaics.read`,
 | Recuperação   | `/auth/forgot-password`, `/auth/reset-password`                  |
 | Câmeras       | `/cameras`, `/cameras/{id}/stream`, gravações e rotação de chave |
 | Mosaicos      | `/mosaics`, `/mosaics/{id}`, `/mosaics/{id}/view`                |
-| Acesso        | `/users`, `/roles`, `/permissions`                               |
+| Rondas        | `/rondas`, `/rondas/{id}`                                        |
+| Acesso        | `/users`, `/roles` (catálogo fixo, somente leitura no front)     |
 | Conectividade | `/camera-status/summary`, `/camera-status/history`               |
 
 O cadastro e a listagem comuns de câmeras não recebem chave nem URL RTMP. Essas

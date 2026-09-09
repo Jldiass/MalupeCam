@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   LogOut,
   Moon,
+  Repeat,
   Settings,
   Sun,
   Users,
@@ -23,6 +24,7 @@ import styles from "./App.module.css";
 const nav = [
   ["/", "Visão geral", LayoutDashboard, "overview.read"],
   ["/mosaics", "Mosaicos", Video, "mosaics.read"],
+  ["/rondas", "Rondas", Repeat, "mosaics.read"],
   ["/cameras", "Câmeras", Camera, "cameras.read"],
   ["/history", "Gravações", History, "cameras.read"],
   ["/events", "Eventos", BellRing, "events.read"],
