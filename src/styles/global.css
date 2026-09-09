@@ -248,36 +248,25 @@ h2 {
   border: 1px solid #293945;
   min-width: 0;
   position: relative;
+  overflow: hidden;
 }
-.video-audio {
-  position: absolute;
-  right: 9px;
-  bottom: 9px;
-  border: 1px solid #5b7180;
-  background: #0c141bdd;
-  color: #d5e2ea;
-  min-height: 32px;
-  padding: 5px 9px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-}
-.video-panel header {
-  height: 54px;
-  padding: 10px 12px;
+.video-panel:fullscreen {
+  border: 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #263440;
+  justify-content: center;
+  background: #000;
 }
-.video-panel strong,
+.video-panel:fullscreen video {
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
 td strong {
   font-size: 13px;
   display: block;
   color: #e3edf3;
 }
-.video-panel small,
 td small,
 .recording-list small {
   color: #7e929f;
@@ -286,7 +275,8 @@ td small,
   margin-top: 3px;
 }
 .video-panel video,
-.video-offline {
+.video-offline,
+.video-skeleton {
   width: 100%;
   aspect-ratio: 16 / 9;
   display: block;
@@ -301,6 +291,61 @@ td small,
   justify-content: center;
   gap: 8px;
   font-size: 12px;
+}
+.video-overlay-top {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+}
+.video-overlay-top .status {
+  background: #0c141bcc;
+  border: 1px solid #2c3d48;
+  padding: 4px 8px;
+}
+.video-overlay-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  background: linear-gradient(to top, #05080ad9, transparent);
+}
+.video-name {
+  color: #e7f0f5;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.video-controls {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.video-icon-btn {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  color: #d5e2ea;
+  background: #0c141bb3;
+  border: 1px solid #33454f;
+  flex-shrink: 0;
+}
+.video-icon-btn:hover {
+  background: #17232dcc;
+  border-color: #579ec9;
+}
+.video-icon-btn.video-icon-flash {
+  border-color: #4bb887;
+  color: #9bdab9;
 }
 .status {
   display: inline-flex;
@@ -1390,8 +1435,9 @@ code {
   min-height: 160px;
 }
 .mosaic-wall .video-panel video,
-.mosaic-wall .video-offline {
-  height: calc(100% - 54px);
+.mosaic-wall .video-offline,
+.mosaic-wall .video-skeleton {
+  height: 100%;
   aspect-ratio: auto;
 }
 .mosaic-slot {
@@ -1608,8 +1654,8 @@ code {
   .video-panel video {
     transition: opacity 0.35s ease;
   }
-  .video-skeleton {
-    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  .loader {
+    animation: l4 1s infinite alternate;
   }
   .modal {
     animation: modal-in 0.18s ease both;
@@ -1650,27 +1696,41 @@ code {
   }
 }
 
-@keyframes skeleton-shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
 .video-panel video.video-loading {
   opacity: 0;
 }
 
 .video-skeleton {
   position: absolute;
-  inset: 54px 0 0 0;
-  background: linear-gradient(100deg, #0c131a 30%, #182430 50%, #0c131a 70%);
-  background-size: 220% 100%;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #0c131a;
   pointer-events: none;
 }
 
 :root[data-theme="light"] .video-skeleton {
-  background-image: linear-gradient(100deg, #eef3f6 30%, #dbe6ec 50%, #eef3f6 70%);
+  background: #dbe6ec;
+}
+
+/* Loading dots for camera cells connecting/buffering — kept as supplied. */
+.loader {
+  width: 60px;
+  aspect-ratio: 4;
+  --c: #fff 90%, #0000;
+  background: radial-gradient(circle closest-side at left 6px top 50%, var(--c)),
+    radial-gradient(circle closest-side, var(--c)),
+    radial-gradient(circle closest-side at right 6px top 50%, var(--c));
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+@keyframes l4 {
+  to {
+    width: 25px;
+    aspect-ratio: 1;
+  }
+}
+
+:root[data-theme="light"] .loader {
+  --c: #1d303a 90%, #0000;
 }
